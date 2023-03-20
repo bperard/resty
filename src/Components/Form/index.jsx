@@ -1,11 +1,13 @@
+import { useState } from 'react';
 import './Form.scss';
 
 const Form = (props) => {
+  const [method, setMethod] = useState('GET');
 
   const handleSubmit = e => {
     e.preventDefault();
     const formData = {
-      method: 'GET',
+      method: method,
       url: 'https://pokeapi.co/api/v2/pokemon',
     };
     props.handleApiCall(formData);
@@ -20,10 +22,16 @@ const Form = (props) => {
           <button type="submit">GO!</button>
         </label>
         <label className="methods">
-          <span id="get">GET</span>
-          <span id="post">POST</span>
-          <span id="put">PUT</span>
-          <span id="delete">DELETE</span>
+          <select onChange={(e) => {
+            setMethod({
+              method: e.target.value
+            })
+          }}>
+            <option value="GET">GET</option>
+            <option value="POST">POST</option>
+            <option value="PUT">PUT</option>
+            <option value="DELETE">DELETE</option>
+          </select>
         </label>
       </form>
     </>
