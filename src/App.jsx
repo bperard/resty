@@ -12,7 +12,10 @@ import Results from './Components/Results';
 
 const App = () => {
   const [data, setData] = useState(null);
-  const [requestParams, setRequestParams] = useState({});
+  const [requestParams, setRequestParams] = useState({
+    method: 'GET',
+    url: 'https://pokeapi.co/api/v2/pokemon',
+  });
   // constructor(props) {
   //   super(props);
   //   this.state = {
@@ -25,7 +28,7 @@ const App = () => {
     // mock output
     // requestParams object used to determine axios url and method
     // data is return from axios call
-    setRequestParams({ requestParams });
+    console.log(requestParams);
     const data = {
       count: 2,
       results: [
@@ -40,7 +43,11 @@ const App = () => {
       <Header />
       <div>Request Method: {requestParams.method}</div>
       <div>URL: {requestParams.url}</div>
-      <Form handleApiCall={callApi} />
+      <Form
+        handleApiCall={callApi}
+        requestParams={requestParams}
+        setRequestParams={setRequestParams}
+      />
       <Results data={data} />
       <Footer />
     </>

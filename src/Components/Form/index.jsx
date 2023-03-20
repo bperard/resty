@@ -1,16 +1,11 @@
-import { useState } from 'react';
 import './Form.scss';
 
-const Form = (props) => {
-  const [method, setMethod] = useState('GET');
+const Form = ({ requestParams, setRequestParams, handleApiCall }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const formData = {
-      method: method,
-      url: 'https://pokeapi.co/api/v2/pokemon',
-    };
-    props.handleApiCall(formData);
+
+    handleApiCall(requestParams);
   }
 
   return (
@@ -18,20 +13,32 @@ const Form = (props) => {
       <form onSubmit={handleSubmit}>
         <label >
           <span>URL: </span>
-          <input name='url' type='text' />
+          <input
+            name='url'
+            type='text'
+            value={requestParams.url}
+            onChange={(e) => {
+              setRequestParams({
+                ...requestParams,
+                url: e.target.value
+              })
+            }}
+          />
           <button type="submit">GO!</button>
         </label>
-        <label className="methods">
-          <select onChange={(e) => {
-            setMethod({
-              method: e.target.value
-            })
-          }}>
-            <option value="GET">GET</option>
-            <option value="POST">POST</option>
-            <option value="PUT">PUT</option>
-            <option value="DELETE">DELETE</option>
-          </select>
+        <label
+          className="methods"
+          onClick={(e) => {
+            setRequestParams({
+              ...requestParams,
+              method: e.target.id
+            });
+          }}
+        >
+          <span id="GET" className={requestParams.method === 'GET' ? 'chosenMethod' : null}>GET</span>
+          <span id="POST" className={requestParams.method === 'POST' ? 'chosenMethod' : null}>POST</span>
+          <span id="PUT" className={requestParams.method === 'PUT' ? 'chosenMethod' : null}>PUT</span>
+          <span id="DELETE" className={requestParams.method === 'DELETE' ? 'chosenMethod' : null}>DELETE</span>
         </label>
       </form>
     </>
