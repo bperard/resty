@@ -2,7 +2,7 @@ import './Footer.scss';
 
 const Footer = () => {
   return (
-    <footer>
+    <footer data-testid="footer">
       &copy; 2018
     </footer>
   );

@@ -12,7 +12,7 @@ const Form = ({ requestParams, setRequestParams, handleApiCall }) => {
     <>
       <form onSubmit={handleSubmit}>
         <label >
-          <span>URL: </span>
+          <span data-testid="input-label" >URL: </span>
           <input
             name='url'
             type='text'
@@ -24,7 +24,7 @@ const Form = ({ requestParams, setRequestParams, handleApiCall }) => {
               })
             }}
           />
-          <button type="submit">GO!</button>
+          <button data-testid="button" type="submit">GO!</button>
         </label>
         <label
           className="methods"
