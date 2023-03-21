@@ -12,14 +12,13 @@ This application will be an API testing tool that can be run in any browser, all
 
 - [GitHub Actions ci/cd](https://github.com/bperard/resty/actions)
 <!-- - [back-end server url](http://xyz.com) (when applicable) -->
-<!-- - [front-end application](http://xyz.com) (when applicable) -->
+- [base branch deploy](https://x1jvdq-3000.csb.app/)
 
 ### Setup
 
 #### `.env` requirements (where applicable)
 
 none for now
-
 
 #### How to initialize/run your application (where applicable)
 
@@ -37,4 +36,4 @@ none for now
 
 #### UML
 
-Link to an image of the UML for your application and response to events
+![Resty UML](./public/426Resty.png)
