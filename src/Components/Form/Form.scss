@@ -1,4 +1,5 @@
 $backgroundColor: #efefef;
+$pinkHighlight: #faf;
 $radius: 40%;
 
 form {
@@ -18,7 +19,7 @@ form {
         background: #ccc;
 
         &:hover, &.active {
-          background: #fff;
+          background: $pinkHighlight;
         }
       }
     }
