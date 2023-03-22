@@ -36,6 +36,7 @@ const App = () => {
         { name: 'fake thing 2', url: 'http://fakethings.com/2' },
       ],
     };
+    setData(data);
   }
 
   return (
