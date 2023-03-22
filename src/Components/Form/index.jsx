@@ -1,29 +1,44 @@
 import './Form.scss';
 
-const Form = (props) => {
+const Form = ({ requestParams, setRequestParams, handleApiCall }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const formData = {
-      method: 'GET',
-      url: 'https://pokeapi.co/api/v2/pokemon',
-    };
-    props.handleApiCall(formData);
+
+    handleApiCall(requestParams);
   }
 
   return (
     <>
       <form onSubmit={handleSubmit}>
         <label >
-          <span>URL: </span>
-          <input name='url' type='text' />
-          <button type="submit">GO!</button>
+          <span data-testid="input-label" >URL: </span>
+          <input
+            name='url'
+            type='text'
+            value={requestParams.url}
+            onChange={(e) => {
+              setRequestParams({
+                ...requestParams,
+                url: e.target.value
+              })
+            }}
+          />
+          <button data-testid="button" type="submit">GO!</button>
         </label>
-        <label className="methods">
-          <span id="get">GET</span>
-          <span id="post">POST</span>
-          <span id="put">PUT</span>
-          <span id="delete">DELETE</span>
+        <label
+          className="methods"
+          onClick={(e) => {
+            setRequestParams({
+              ...requestParams,
+              method: e.target.id
+            });
+          }}
+        >
+          <span id="GET" className={requestParams.method === 'GET' ? 'chosenMethod' : null}>GET</span>
+          <span id="POST" className={requestParams.method === 'POST' ? 'chosenMethod' : null}>POST</span>
+          <span id="PUT" className={requestParams.method === 'PUT' ? 'chosenMethod' : null}>PUT</span>
+          <span id="DELETE" className={requestParams.method === 'DELETE' ? 'chosenMethod' : null}>DELETE</span>
         </label>
       </form>
     </>
