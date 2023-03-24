@@ -9,6 +9,8 @@ import Form from './Components/Form';
 import Results from './Components/Results';
 
 const App = () => {
+  // const [history, setHistory] = useState([]);
+  // const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [requestParams, setRequestParams] = useState({
     method: '',
