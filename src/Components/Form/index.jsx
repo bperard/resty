@@ -2,16 +2,16 @@ import { useState } from 'react';
 
 import './Form.scss';
 
-const Form = ({ requestParams, setRequestParams }) => {
+const Form = ({ handleUpdateMethodAndUrl }) => {
   const [method, setMethod] = useState('');
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    setRequestParams({
-      ...requestParams,
+    handleUpdateMethodAndUrl({
       method,
-      url: e.target.url.value
+      url: e.target.url.value,
+      body: e.target.body.value
     })
   }
 
@@ -41,13 +41,13 @@ const Form = ({ requestParams, setRequestParams }) => {
           <textarea
             name="body"
             placeholder="Enter Request Body"
-            value={requestParams.body}
-            onChange={(e) => {
-              setRequestParams({
-                ...requestParams,
-                body: e.target.value
-              })
-            }}
+            // value={requestParams.body}
+            // onChange={(e) => {
+            //   setRequestParams({
+            //     ...requestParams,
+            //     body: e.target.value
+            //   })
+            // }}
           >
           </textarea>
         </label>
