@@ -8,6 +8,7 @@ import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Form from './Components/Form';
 import Results from './Components/Results';
+import History from './Components/History';
 
 const initialState = {
   history: [],
@@ -72,8 +73,6 @@ const App = () => {
     callApi();
   }, [reqResHistory.method, reqResHistory.url]);
 
-
-
   return (
     <>
       <Header />
@@ -84,6 +83,7 @@ const App = () => {
         handleUpdateMethodAndUrl={updateMethodAndUrl}
       />
       <Results data={reqResHistory.data} />
+      <History historyArray={reqResHistory.history} />
       <Footer />
     </>
   );
