@@ -1,11 +1,18 @@
+import { useState } from 'react';
+
 import './Form.scss';
 
-const Form = ({ requestParams, setRequestParams, handleApiCall }) => {
+const Form = ({ requestParams, setRequestParams }) => {
+  const [method, setMethod] = useState('');
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    handleApiCall(requestParams);
+    setRequestParams({
+      ...requestParams,
+      method,
+      url: e.target.url.value
+    })
   }
 
   return (
@@ -16,29 +23,33 @@ const Form = ({ requestParams, setRequestParams, handleApiCall }) => {
           <input
             name='url'
             type='text'
-            value={requestParams.url}
-            onChange={(e) => {
-              setRequestParams({
-                ...requestParams,
-                url: e.target.value
-              })
-            }}
           />
           <button data-testid="button" type="submit">GO!</button>
         </label>
         <label
           className="methods"
           onClick={(e) => {
-            setRequestParams({
-              ...requestParams,
-              method: e.target.id
-            });
+            setMethod(e.target.id);
           }}
         >
-          <span id="GET" className={requestParams.method === 'GET' ? 'chosenMethod' : null}>GET</span>
-          <span id="POST" className={requestParams.method === 'POST' ? 'chosenMethod' : null}>POST</span>
-          <span id="PUT" className={requestParams.method === 'PUT' ? 'chosenMethod' : null}>PUT</span>
-          <span id="DELETE" className={requestParams.method === 'DELETE' ? 'chosenMethod' : null}>DELETE</span>
+          <span id="GET" className={method === 'GET' ? 'chosenMethod' : null}>GET</span>
+          <span id="POST" className={method === 'POST' ? 'chosenMethod' : null}>POST</span>
+          <span id="PUT" className={method === 'PUT' ? 'chosenMethod' : null}>PUT</span>
+          <span id="DELETE" className={method === 'DELETE' ? 'chosenMethod' : null}>DELETE</span>
+        </label>
+        <label>
+          <textarea
+            name="body"
+            placeholder="Enter Request Body"
+            value={requestParams.body}
+            onChange={(e) => {
+              setRequestParams({
+                ...requestParams,
+                body: e.target.value
+              })
+            }}
+          >
+          </textarea>
         </label>
       </form>
     </>
