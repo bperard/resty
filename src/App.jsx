@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer } from 'react';
 import axios from 'axios';
+import { appReducer } from './appReducer';
 
 import './App.scss';
 
@@ -7,14 +8,37 @@ import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Form from './Components/Form';
 import Results from './Components/Results';
+import History from './Components/History';
+
+const initialState = {
+  history: [],
+  data: null,
+  method: '',
+  url: '',
+  body: '',
+}
 
 const App = () => {
-  const [data, setData] = useState(null);
-  const [requestParams, setRequestParams] = useState({
-    method: '',
-    url: '',
-    body: ''
-  });
+  const [reqResHistory, dispatch] = useReducer(appReducer, initialState);
+  // const [history, setHistory] = useState([]);
+  // // const [loading, setLoading] = useState(false);
+  // const [data, setData] = useState(null);
+  // const [requestParams, setRequestParams] = useState({
+  //   method: '',
+  //   url: '',
+  //   body: ''
+  // });
+
+  const updateMethodAndUrl = ({method, url, body}) => {
+    const action = {
+      type: 'UPDATE_REQUEST',
+      method,
+      url,
+      body
+    };
+
+    dispatch(reqResHistory, action);
+  }
 
   useEffect(() => {
     const callApi = async () => {
@@ -22,37 +46,44 @@ const App = () => {
 
       try {
         response = await axios({
-          method: requestParams.method,
-          url: requestParams.url,
-          body: requestParams.method === ('post' || 'put') ? requestParams.body : null
+          method: reqResHistory.method,
+          url: reqResHistory.url,
+          body: reqResHistory.method === ('post' || 'put') ? reqResHistory.body : null
         });
+
       } catch (error) {
-        setData({
-          error: error.message
-        });
+        const action = {
+          type: 'UPDATE_ERROR',
+          data: error.message
+        };
+
+        dispatch(reqResHistory, action);
       }
 
-      if (requestParams.url && response.data) {
-        setData(response.data);
+      if (reqResHistory.url && response.data) {
+        const action = {
+          type: 'UPDATE_DATA',
+          data: response.data
+        };
+
+        dispatch(reqResHistory, action);
       }
     }
 
     callApi();
-  }, [requestParams.method, requestParams.url]);
-
-
+  }, [reqResHistory.method, reqResHistory.url]);
 
   return (
     <>
       <Header />
-      <div>Request Method: {requestParams.method}</div>
-      <div>URL: {requestParams.url}</div>
-      {requestParams.body && <div>Body: {requestParams.body}</div>}
+      <div>Request Method: {reqResHistory.method}</div>
+      <div>URL: {reqResHistory.url}</div>
+      {reqResHistory.body && <div>Body: {reqResHistory.body}</div>}
       <Form
-        requestParams={requestParams}
-        setRequestParams={setRequestParams}
+        handleUpdateMethodAndUrl={updateMethodAndUrl}
       />
-      <Results data={data} />
+      <Results data={reqResHistory.data} />
+      <History historyArray={reqResHistory.history} />
       <Footer />
     </>
   );
